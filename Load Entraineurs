@@ -1,0 +1,11 @@
+LOAD DATA
+INFILE '/home/oracle/Desktop/Jeu/Entraineurs.csv'
+INTO TABLE Entraineurs
+FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+(
+    ID_ENTRAINEUR,
+    NOM,
+    PRENOM,
+    CLUB,
+    PAYS_ENTRE
+)
