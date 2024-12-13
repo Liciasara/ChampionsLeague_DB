@@ -1,0 +1,106 @@
+-- Création de la table Entraineur
+CREATE TABLE Entraineur (
+    Id_entraineur NUMBER PRIMARY KEY,
+    Nom VARCHAR2(50) NOT NULL,
+    Prenom VARCHAR2(50),
+    Club VARCHAR2(50),
+    Pays_Entre VARCHAR2(50)
+);
+
+-- Création de la table Joueur
+CREATE TABLE Joueur (
+    Id_joueur NUMBER PRIMARY KEY,
+    Id_equipe NUMBER,
+    Nom VARCHAR2(50) NOT NULL,
+    Prenom VARCHAR2(50),
+    Date_naissance DATE,
+    Poste VARCHAR2(50),
+    FOREIGN KEY (Id_equipe) REFERENCES Equipes(Id_equipes)
+);
+
+-- Création de la table Equipes
+CREATE TABLE Equipes (
+    Id_equipes NUMBER PRIMARY KEY,
+    Id_entraineur NUMBER,
+    Nom VARCHAR2(100) NOT NULL,
+    Annees_creation NUMBER,
+    Logo VARCHAR2(255),
+    Groupe VARCHAR2(50),
+    FOREIGN KEY (Id_entraineur) REFERENCES Entraineur(Id_entraineur)
+);
+
+-- Création de la table Sponsor
+CREATE TABLE Sponsor (
+    Id_sponsor NUMBER PRIMARY KEY,
+    Nom VARCHAR2(100) NOT NULL,
+    Prix NUMBER
+);
+
+-- Création de la table Phase
+CREATE TABLE Phase (
+    Id_phase NUMBER PRIMARY KEY,
+    Nom VARCHAR2(50)
+);
+
+-- Création de la table Match
+CREATE TABLE Match (
+    Id_match NUMBER PRIMARY KEY,
+    Id_Equipe_Local NUMBER NOT NULL,
+    Id_Equipe_Visiteur NUMBER NOT NULL,
+    Id_Saison NUMBER,
+    Id_Phase NUMBER,
+    Date_Match DATE,
+    Score_Local NUMBER,
+    Score_Visiteur NUMBER,
+    Lieu VARCHAR2(100),
+    FOREIGN KEY (Id_Equipe_Local) REFERENCES Equipes(Id_equipes),
+    FOREIGN KEY (Id_Equipe_Visiteur) REFERENCES Equipes(Id_equipes),
+    FOREIGN KEY (Id_Phase) REFERENCES Phase(Id_phase)
+);
+
+-- Création de la table Buteurs
+CREATE TABLE Buteurs (
+    Id_buteur NUMBER PRIMARY KEY,
+    Id_joueur NUMBER NOT NULL,
+    Id_match NUMBER NOT NULL,
+    Minute NUMBER,
+    Type VARCHAR2(50),
+    FOREIGN KEY (Id_joueur) REFERENCES Joueur(Id_joueur),
+    FOREIGN KEY (Id_match) REFERENCES Match(Id_match)
+);
+
+-- Création de la table Fautes
+CREATE TABLE Fautes (
+    Id_faute NUMBER PRIMARY KEY,
+    Id_match NUMBER NOT NULL,
+    Id_joueur NUMBER NOT NULL,
+    Minute NUMBER,
+    Type_faute VARCHAR2(50),
+    Description VARCHAR2(255),
+    FOREIGN KEY (Id_match) REFERENCES Match(Id_match),
+    FOREIGN KEY (Id_joueur) REFERENCES Joueur(Id_joueur)
+);
+
+-- Création de la table Classement
+CREATE TABLE Classement (
+    Id_classement NUMBER PRIMARY KEY,
+    Id_phase NUMBER NOT NULL,
+    Id_equipe NUMBER NOT NULL,
+    Joues NUMBER,
+    Gagnes NUMBER,
+    Nuls NUMBER,
+    Perdus NUMBER,
+    Buts_pour NUMBER,
+    Buts_contre NUMBER,
+    Points NUMBER,
+    FOREIGN KEY (Id_phase) REFERENCES Phase(Id_phase),
+    FOREIGN KEY (Id_equipe) REFERENCES Equipes(Id_equipes)
+);
+
+-- Création de la table Arbitre
+CREATE TABLE Arbitre (
+    Id_arbitre NUMBER PRIMARY KEY,
+    Nom VARCHAR2(50) NOT NULL,
+    Prenom VARCHAR2(50),
+    Pays_Arbitre VARCHAR2(50)
+);
